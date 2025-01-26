@@ -14,7 +14,9 @@
                 </div>
                 {{ if .Site.Params.showSummary }}
                 <div class="mb-2">
-                  {{ .Summary | markdownify | safeHTML }}
+                  {{ with .RawContent }}
+                    {{ . | truncate 300 | markdownify | safeHTML }}
+                  {{ end }}
                 </div>
                 {{ end }}
                 {{ with (.GetTerms "tags") }}
