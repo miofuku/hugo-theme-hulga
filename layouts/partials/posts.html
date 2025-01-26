@@ -14,7 +14,7 @@
                 </div>
                 {{ if .Site.Params.showSummary }}
                 <div class="mb-2">
-                  {{ .Summary | safeHTML }}
+                  {{ .Summary | markdownify | safeHTML }}
                 </div>
                 {{ end }}
                 {{ with (.GetTerms "tags") }}
