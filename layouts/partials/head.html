@@ -38,20 +38,17 @@
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
-  {{- $options := (dict "outputStyle" "compressed") }}
-  {{- $hulgaScss := resources.Get "css/hulga.scss" }}
-  {{- $bulmaCss := resources.Get "css/bulma-no-dark-mode.min.css" }}
-  {{- if .Site.Params.darkMedia }}
-    {{- $bulmaCss = resources.Get "css/bulma.css" }}
-  {{- end }}
-  {{- if .Site.Params.postcss }}
-    {{- $bulma := $bulmaCss | postCSS | resources.Minify | resources.PostProcess }}
+  {{- $options := (dict "targetPath" "css/hulga.css" "outputStyle" "compressed" "includePaths" (slice "assets/sass")) -}}
+  {{- $bulmaCss := resources.Get "css/bulma.css" -}}
+  {{- if .Site.Params.postcss -}}
+    {{- $bulma := $bulmaCss | postCSS | resources.Minify | resources.PostProcess -}}
     <link rel="stylesheet" type="text/css" href="{{ $bulma.RelPermalink }}">
-  {{- else }}
-    {{- $bulma := $bulmaCss | resources.Minify }}
+  {{- else -}}
+    {{- $bulma := $bulmaCss | resources.Minify -}}
     <link rel="stylesheet" type="text/css" href="{{ $bulma.RelPermalink }}">
-  {{- end }}
-  {{- $hulga := $hulgaScss | resources.ExecuteAsTemplate "css/hulga.scss" . | css.Sass $options | resources.Minify }}
+  {{- end -}}
+  {{- $hulgaScss := resources.Get "css/hulga.scss" -}}
+  {{- $hulga := $hulgaScss | resources.ExecuteAsTemplate "css/hulga.scss" . | toCSS $options | resources.Minify -}}
   <link rel="stylesheet" type="text/css" href="{{ $hulga.RelPermalink }}">
   {{- if .Site.Params.pwa }}
   <link rel="manifest" href="/manifest.json">

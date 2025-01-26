@@ -1,26 +1,29 @@
-{{ $options := (dict "outputStyle" "compressed" "includePaths" (slice "sass")) }}
-{{ $tocScss := resources.Get "css/toc.scss" }}
-{{ $toc := $tocScss | resources.ExecuteAsTemplate "css/toc.scss" . | css.Sass $options | resources.Minify }}
-<link rel="stylesheet" type="text/css" href="{{ $toc.Permalink | absURL }}">
-{{- if .Site.Params.noCDN -}}
-<script src={{ "js/tocbot.min.js" | absURL }}></script>
-{{- else -}}
-<script src="https://cdn.jsdelivr.net/npm/tocbot@4.25.0/dist/tocbot.min.js"></script>
-{{- end -}}
+{{- $tocScss := resources.Get "css/toc.scss" -}}
+{{- $options := (dict "targetPath" "css/toc.css" "outputStyle" "compressed" "includePaths" (slice "assets/sass")) -}}
+{{- $toc := $tocScss | resources.ExecuteAsTemplate "css/toc.scss" . | toCSS $options | resources.Minify -}}
+<link rel="stylesheet" type="text/css" href="{{ $toc.RelPermalink }}">
+<script src="{{ "js/tocbot.min.js" | relURL }}"></script>
 {{ $globalAutoCollapseToc := .Site.Params.autoCollapseToc | default false }}
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
     tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.post-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '#post-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3',
-        collapseDepth: {{ if not (or .Params.autoCollapseToc (and $globalAutoCollapseToc (ne .Params.autoCollapseToc false))) }} 6 {{else}} 0 {{ end }},
-        scrollSmooth: true,
-        positionFixedSelector: '.post-toc',
-        // FIXME: elements in container's offsetTop is not right...It's to difficult for me...
-        // fixedSidebarOffset: 'auto',
-        fixedSidebarOffset: 273,
+      // Where to render the table of contents.
+      tocSelector: '.post-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.post-content',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h1, h2, h3',
+      // For headings inside relative or absolute positioned containers within content.
+      hasInnerContainers: true,
+      // Smooth scrolling enabled.
+      scrollSmooth: true,
+      // Smooth scroll duration.
+      scrollSmoothDuration: 420,
+      collapseDepth: {{ if not (or .Params.autoCollapseToc (and $globalAutoCollapseToc (ne .Params.autoCollapseToc false))) }} 6 {{else}} 0 {{ end }},
+      positionFixedSelector: '.post-toc',
+      // FIXME: elements in container's offsetTop is not right...It's to difficult for me...
+      // fixedSidebarOffset: 'auto',
+      fixedSidebarOffset: 273,
     });
+  });
 </script>
