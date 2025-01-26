@@ -34,6 +34,20 @@ body {
   position: relative;
 }
 
+/* Add these new styles */
+.hero-body {
+  padding: 2rem 1.5rem;
+}
+
+.hero-body .title {
+  margin-bottom: 2rem;
+}
+
+/* Increase space between title and subtitle */
+.hero-body .title + .subtitle {
+  margin-top: 2rem;
+}
+
 /*syntax highlight label*/
 .highlight {
   position: relative;
