@@ -15,7 +15,7 @@
                 {{ if .Site.Params.showSummary }}
                 <div class="mb-2">
                   {{ with .RawContent }}
-                    {{ . | truncate 300 | markdownify | safeHTML }}
+                    {{ . | truncate 400 | markdownify | safeHTML }}
                   {{ end }}
                 </div>
                 {{ end }}
