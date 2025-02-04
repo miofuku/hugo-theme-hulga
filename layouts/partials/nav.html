@@ -2,15 +2,17 @@
   <div class="container">
     <div class="navbar-brand">
       {{- $home := .Site.GetPage "/" -}}
-      <a class="navbar-item {{if ne .Kind "page"}}is-invisible{{end}}" href="{{ $home.RelPermalink }}">
+      <a class="navbar-item {{if ne .Kind "page"}}is-invisible{{end}}" 
+         href="{{ .Site.BaseURL }}" 
+         title="{{ .Site.Title }} - Home">
         {{ .Site.Title }}
       </a>
-      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+      <button class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
-      </a>
+      </button>
     </div>
     <div class="navbar-menu" id="navMenu">
       <div class="navbar-end">
@@ -23,6 +25,7 @@
         <a class="navbar-item" href="{{ .URL }}" title="{{ .Identifier }}">{{- .Name -}}</a>
       {{ .Post }}
       {{- end }}
+
       </div>
     </div>
   </div>

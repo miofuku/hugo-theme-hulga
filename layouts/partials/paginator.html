@@ -1,7 +1,8 @@
 {{ $pag := .Paginate (where .Data.Pages "Type" "post") }}
 {{ if gt $pag.TotalPages 1 -}}
 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-  <a class="pagination-previous" {{ if $pag.HasPrev }} href="{{ $pag.Prev.URL }}" {{ else }} href="#" disabled {{ end }}>
+  <a class="pagination-previous" {{ if not $pag.HasPrev }} disabled {{ else }} href="{{ $pag.Prev.URL }}" {{ end }}
+     title="Go to previous page">
     {{ i18n "prev_page"}}
   </a>
   <ul class="pagination-list">
@@ -22,14 +23,16 @@
       {{- if $showNumber }}
       <li>
         <a class="pagination-link {{ if eq . $pag }}is-current{{ end }}"
-          href="{{ .URL }}">{{ .PageNumber }}</a>
+          href="{{ .URL }}"
+          title="Go to page {{ .PageNumber }}">{{ .PageNumber }}</a>
       </li>
       {{- else if $shouldEllipse }}
       <li><span class="pagination-ellipsis">&hellip;</span></li>
       {{- end -}}
     {{- end }}
   </ul>
-  <a class="pagination-next" {{ if $pag.HasNext }} href="{{ $pag.Next.URL }}" {{ else }} href="#" disabled {{ end }}>
+  <a class="pagination-next" {{ if not $pag.HasNext }} disabled {{ else }} href="{{ $pag.Next.URL }}" {{ end }}
+     title="Go to next page">
     {{ i18n "next_page"}}
   </a>
 </nav>

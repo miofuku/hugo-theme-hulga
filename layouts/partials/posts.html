@@ -10,7 +10,7 @@
               {{ range $paginator.Pages }}
               <div class="box post-box">
                 <div class="mb-2">
-                    <a href="{{ .RelPermalink }}" class="title is-5">{{ .Title }}</a>
+                    <a href="{{ .RelPermalink }}" class="title is-5" title="Read {{ .Title }}">{{ .Title }}</a>
                 </div>
                 {{ if .Site.Params.showSummary }}
                 <div class="mb-2">
@@ -23,7 +23,7 @@
                 <div class="post-box-tags">
                   {{- range .}}
                   <span class="post-tag mr-2 post-box-tag">
-                    <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
+                    <a href="{{ .RelPermalink }}" title="View all posts tagged {{ .LinkTitle }}">#{{ .LinkTitle }}</a>
                   </span>
                   {{- end }}
                 </div>
@@ -34,14 +34,14 @@
                     {{ with (.GetTerms "categories") }} ・
                       {{- range .}}
                       <span class="post-cat mr-2">
-                        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+                        <a href="{{ .RelPermalink }}" title="View all posts in {{ .LinkTitle }}">{{ .LinkTitle }}</a>
                       </span>
                       {{- end }}
                     {{ end }}
                   </div>
                   {{ if .Truncated }}
                   <div class="readmore">
-                    <a href="{{ .RelPermalink }}">{{ i18n "read_more" }}</a>
+                    <a href="{{ .RelPermalink }}" title="Continue reading {{ .Title }}">{{ i18n "read_more" }}</a>
                   </div>
                   {{ end }}
                 </div>
@@ -64,7 +64,7 @@
                 <div class="content">
                   {{ range .Site.Taxonomies.categories.ByCount }}
                   <div class="container mb-2">
-                    <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+                    <a href="{{ .Page.RelPermalink }}" title="View all posts in {{ .Page.Title }}">{{ .Page.Title }}</a>
                     <span class="tag is-pulled-right">
                       {{ .Count }}
                     </span>
@@ -88,7 +88,7 @@
                   {{ range .Site.Taxonomies.tags.ByCount }}
                   <div class="control">
                     <div class="tags has-addons">
-                      <a class="tag" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+                      <a class="tag" href="{{ .Page.RelPermalink }}" title="View all posts tagged {{ .Page.Title }}">{{ .Page.Title }}</a>
                       <span class="tag counter-tag">
                         {{ .Count }}
                       </span>

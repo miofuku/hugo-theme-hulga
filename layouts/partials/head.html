@@ -5,6 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  {{ if .Params.robots }}
+    <meta name="robots" content="{{ .Params.robots }}">
+  {{ else }}
+    <meta name="robots" content="index, follow">
+  {{ end }}
+  {{ if .Params.canonical }}
+    <link rel="canonical" href="{{ .Params.canonical }}" />
+  {{ else }}
+    <link rel="canonical" href="{{ .Permalink }}" />
+  {{ end }}
   {{- if .Site.Params.primaryColor -}}
   <meta name="msapplication-TileColor" content="{{.Site.Params.primaryColor}}">
   <meta name="theme-color" content="{{.Site.Params.primaryColor}}">
