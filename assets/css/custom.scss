@@ -87,3 +87,8 @@ body {
   background: var(--bulma-primary);
   color: var(--bulma-primary-invert);
 }
+
+.post-description p {
+  color: rgba(235, 118, 95, 0.8) !important; /* Using your theme's primary color with opacity */
+  font-size: 0.875rem;
+}

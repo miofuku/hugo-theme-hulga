@@ -33,7 +33,7 @@
                 
                 {{ if .Description }}
                 <div class="post-description mb-3">
-                  <p class="has-text-grey is-size-6 has-text-weight-medium">
+                  <p class="has-text-light is-size-6 has-text-weight-medium">
                     {{ .Description }}
                   </p>
                 </div>
@@ -41,13 +41,11 @@
                 
                 <div class="post-content">
                   <p class="has-text-grey-dark">
-                    {{ .Summary }}
+                    {{ .Content | plainify | truncate 300 }}
                   </p>
                 </div>
               </div>
               {{ end }}
-            </div>
-            <div class="pt-5">
               {{ partial "paginator.html" . }}
             </div>
           </div>
