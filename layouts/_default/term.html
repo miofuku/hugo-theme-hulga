@@ -1,59 +1,119 @@
 {{ define "main" }}
-{{- partial "header.html" . -}}
-{{- $ctx := . -}}
+<section class="hero is-primary shadow-hero search-header {{ if .Site.Params.heroBold }} is-bold {{ end }}">
+  <div class="hero-head">
+    {{ partial "nav.html" . }}
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        {{ .Title }}
+      </h1>
+      <h2 class="subtitle">
+        {{ len .Pages }} posts
+      </h2>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
     <div class="columns">
-      <div class="column is-8 is-offset-2">
-        {{ if eq .Data.Singular "category" }}
-        <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
-          <ul>
-            <li><a href={{"categories" | relURL}}>{{- i18n "categories" -}}</a></li>
-            <li class="is-active"><a href="#">{{ .Data.Term }}</a></li>
-          </ul>
-        </nav>
-        {{ else if eq .Data.Singular "tag" }}
-        <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
-          <ul>
-            <li><a href="{{"tags" | relURL}}">{{- i18n "tags" -}}</a></li>
-            <li class="is-active"><a href="#">{{ .Data.Term }}</a></li>
-          </ul>
-        </nav>
-        {{ end }}
-        <div class="post-lists">
-          {{ $paginator := .Paginate (where .Data.Pages "Type" "post") (.Site.Params.termPaginate | default 10) }}
-          {{ range $paginator.Pages }}
-            <div class="box post-box">
-              <div class="mb-2">
-                <a href="{{ .RelPermalink }}" class="title is-size-5">{{ .Title }}</a>
-              </div>
-              <div class="post-box-meta">
-                <div>
-                  {{ .Date.Format "2006/01/02" }}
-                  {{ with (.GetTerms "categories") }} ・
-                    {{ range . }}
-                      <span class="post-tag mr-2 post-cat">
-                        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-                      </span>
+      <div class="column is-10 is-offset-1">
+        <div class="columns">
+          <div class="column is-8">
+            <div class="post-lists">
+              {{ $paginator := .Paginate .Pages }}
+              {{ range $paginator.Pages }}
+              <div class="box post-box">
+                <div class="post-header mb-4">
+                  <a href="{{ .RelPermalink }}" class="title is-4 has-text-primary">
+                    {{ .Title }}
+                  </a>
+                  <div class="post-meta mt-2">
+                    {{ with (.GetTerms "categories") }}
+                    <span class="has-text-grey-light">・</span>
+                    <a href="{{ (index . 0).RelPermalink }}" class="has-text-grey">{{ (index . 0).LinkTitle }}</a>
                     {{ end }}
+                    {{ with (.GetTerms "tags") }}
+                    <span class="post-tags d-inline">
+                      {{- range . }}
+                      <span class="tag is-light is-small ml-2">
+                        <a href="{{ .RelPermalink }}" class="has-text-grey-dark">#{{ .LinkTitle }}</a>
+                      </span>
+                      {{- end }}
+                    </span>
+                    {{ end }}
+                  </div>
+                </div>
+                
+                {{ if .Description }}
+                <div class="post-description mb-3">
+                  <p class="has-text-grey is-size-6 has-text-weight-medium">
+                    {{ .Description }}
+                  </p>
+                </div>
+                {{ end }}
+                
+                <div class="post-content">
+                  <p class="has-text-grey-dark">
+                    {{ .Summary }}
+                  </p>
+                </div>
+              </div>
+              {{ end }}
+              {{ partial "paginator.html" . }}
+            </div>
+          </div>
+          <div class="column is-4 is-hidden-mobile">
+            {{ if .Site.Taxonomies.categories }}
+            <div class="card">
+              <header class="card-header is-primary">
+                <p class="card-header-title">
+                  {{ i18n "categories" }}
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  {{ range .Site.Taxonomies.categories.ByCount }}
+                  <div class="container mb-2">
+                    <a href="{{ .Page.RelPermalink }}" title="View all posts in {{ .Page.Title }}">{{ .Page.Title }}</a>
+                    <span class="tag is-pulled-right">
+                      {{ .Count }}
+                    </span>
+                  </div>
                   {{ end }}
                 </div>
               </div>
-              {{ with (.GetTerms "tags") }}
-              <div class="post-box-tags">
-                {{ range . }}
-                  <span class="post-tag post-box-tag mr-2">
-                    <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
-                  </span>
-                {{ end }}
-              </div>
-              {{ end }}
             </div>
-          {{ end }}
-          {{ partial "paginator.html" . }}
+            <br>
+            {{ end }}
+
+            {{ if .Site.Taxonomies.tags }}
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  {{ i18n "tags" }}
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="field is-grouped is-grouped-multiline">
+                  {{ range .Site.Taxonomies.tags.ByCount }}
+                  <div class="control">
+                    <div class="tags has-addons">
+                      <a class="tag" href="{{ .Page.RelPermalink }}" title="View all posts tagged {{ .Page.Title }}">{{ .Page.Title }}</a>
+                      <span class="tag counter-tag">
+                        {{ .Count }}
+                      </span>
+                    </div>
+                  </div>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+            {{ end }}
+          </div>
         </div>
       </div>
-      <div class="column is-2"></div>
     </div>
   </div>
 </section>

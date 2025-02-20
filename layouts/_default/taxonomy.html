@@ -1,5 +1,28 @@
 {{ define "main" }}
-{{ partial "header.html" . }}
+<section class="hero is-primary shadow-hero search-header {{ if .Site.Params.heroBold }} is-bold {{ end }}">
+  <div class="hero-head">
+    {{ partial "nav.html" . }}
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        {{ if eq .Data.Singular "tag" }}
+          Tags
+        {{ else }}
+          Categories
+        {{ end }}
+      </h1>
+      <h2 class="subtitle">
+        {{ if eq .Data.Singular "tag" }}
+          All tags in the blog
+        {{ else }}
+          All categories in the blog
+        {{ end }}
+      </h2>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
     <div class="columns">
@@ -13,7 +36,6 @@
           </header>
           <div class="card-content">
             <div class="content is-medium">
-              {{- $ctx := . -}}
               {{ range .Site.Taxonomies.categories.ByCount }}
               <div class="container" style="margin-bottom: 0.5rem">
                 <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
@@ -25,7 +47,6 @@
             </div>
           </div>
         </div>
-        <br>
         {{ end }}
 
         {{ if eq .Data.Singular "tag" }}
@@ -37,7 +58,6 @@
           </header>
           <div class="card-content">
             <div class="field is-grouped is-grouped-multiline">
-              {{- $ctx := . -}}
               {{ range .Site.Taxonomies.tags.ByCount }}
               <div class="control">
                 <div class="tags has-addons">
@@ -53,7 +73,6 @@
         </div>
         {{ end }}
       </div>
-      <div class="column is-2"></div>
     </div>
   </div>
 </section>

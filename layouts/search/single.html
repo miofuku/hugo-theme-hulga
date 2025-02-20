@@ -1,17 +1,22 @@
 {{ define "main" }}
-{{ partial "post-header.html" . }}
-<style>
-  :root {
-    --pagefind-ui-primary: var(--bulma-primary);
-    --pagefind-ui-text: var(--bulma-text);
-    --pagefind-ui-background: var(--bulma-background);
-    --pagefind-ui-border: var(--bulma-border);
-    --pagefind-ui-border-radius: var(--bulma-radius);
-  }
-</style>
+<section class="hero is-primary shadow-hero search-header {{ if .Site.Params.heroBold }} is-bold {{ end }}">
+  <div class="hero-head">
+    {{ partial "nav.html" . }}
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        {{ .Title }}
+      </h1>
+      <h2 class="subtitle">
+        {{ .Description }}
+      </h2>
+    </div>
+  </div>
+</section>
 
 <section class="section">
-  <div class="container content">
+  <div class="container">
     <div class="columns">
       <div class="column is-8 is-offset-2">
         <div id="search"></div>

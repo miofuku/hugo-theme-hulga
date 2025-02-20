@@ -9,41 +9,40 @@
               {{ $paginator := .Paginate (where (where .Site.Pages "Type" "post") "Kind" "page") }}
               {{ range $paginator.Pages }}
               <div class="box post-box">
-                <div class="mb-2">
-                    <a href="{{ .RelPermalink }}" class="title is-5" title="Read {{ .Title }}">{{ .Title }}</a>
-                </div>
-                {{ if .Site.Params.showSummary }}
-                <div class="mb-2">
-                  {{ with .RawContent }}
-                    {{ . | truncate 400 | markdownify | safeHTML }}
-                  {{ end }}
-                </div>
-                {{ end }}
-                {{ with (.GetTerms "tags") }}
-                <div class="post-box-tags">
-                  {{- range .}}
-                  <span class="post-tag mr-2 post-box-tag">
-                    <a href="{{ .RelPermalink }}" title="View all posts tagged {{ .LinkTitle }}">#{{ .LinkTitle }}</a>
-                  </span>
-                  {{- end }}
-                </div>
-                {{ end }}
-                <div class="post-box-meta">
-                  <div class="post-box-time">
-                    {{ .Date.Format "2006/01/02" }}
-                    {{ with (.GetTerms "categories") }} ・
-                      {{- range .}}
-                      <span class="post-cat mr-2">
-                        <a href="{{ .RelPermalink }}" title="View all posts in {{ .LinkTitle }}">{{ .LinkTitle }}</a>
+                <div class="post-header mb-4">
+                  <a href="{{ .RelPermalink }}" class="title is-4 has-text-primary" title="Read {{ .Title }}">
+                    {{ .Title }}
+                  </a>
+                  <div class="post-meta mt-2">
+                    <time class="has-text-grey-light">{{ .Date.Format "2006/01/02" }}</time>
+                    {{ with (.GetTerms "categories") }}
+                    <span class="has-text-grey-light">・</span>
+                    <a href="{{ (index . 0).RelPermalink }}" class="has-text-grey">{{ (index . 0).LinkTitle }}</a>
+                    {{ end }}
+                    {{ with (.GetTerms "tags") }}
+                    <span class="post-tags d-inline">
+                      {{- range . }}
+                      <span class="tag is-light is-small ml-2">
+                        <a href="{{ .RelPermalink }}" class="has-text-grey-dark">#{{ .LinkTitle }}</a>
                       </span>
                       {{- end }}
+                    </span>
                     {{ end }}
                   </div>
-                  {{ if .Truncated }}
-                  <div class="readmore">
-                    <a href="{{ .RelPermalink }}" title="Continue reading {{ .Title }}">{{ i18n "read_more" }}</a>
-                  </div>
-                  {{ end }}
+                </div>
+                
+                {{ if .Description }}
+                <div class="post-description mb-3">
+                  <p class="has-text-grey is-size-6 has-text-weight-medium">
+                    {{ .Description }}
+                  </p>
+                </div>
+                {{ end }}
+                
+                <div class="post-content">
+                  <p class="has-text-grey-dark">
+                    {{ .Summary }}
+                  </p>
                 </div>
               </div>
               {{ end }}
