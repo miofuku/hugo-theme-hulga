@@ -7,4 +7,5 @@ math: false
 tags: []
 categories: []
 canonical: "https://www.takenotes.site/post/{{ .Name }}/"
+robots: "index, follow"
 ---
