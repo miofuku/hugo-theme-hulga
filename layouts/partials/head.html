@@ -13,14 +13,14 @@
   {{ if .Params.canonical }}
     <link rel="canonical" href="{{ .Params.canonical }}" />
   {{ else }}
-    {{ if .Paginator }}
+    {{ if and (or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term")) .Paginator }}
       {{ if gt .Paginator.PageNumber 1 }}
         <link rel="canonical" href="{{ .Paginator.First.URL }}" />
       {{ else }}
-        <link rel="canonical" href="{{ .Permalink }}" />
+        <link rel="canonical" href="{{ strings.TrimSuffix "/" .Permalink }}" />
       {{ end }}
     {{ else }}
-      <link rel="canonical" href="{{ .Permalink }}" />
+      <link rel="canonical" href="{{ strings.TrimSuffix "/" .Permalink }}" />
     {{ end }}
   {{ end }}
   {{- if .Site.Params.primaryColor -}}
