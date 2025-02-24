@@ -13,7 +13,15 @@
   {{ if .Params.canonical }}
     <link rel="canonical" href="{{ .Params.canonical }}" />
   {{ else }}
-    <link rel="canonical" href="{{ .Permalink }}" />
+    {{ if .Paginator }}
+      {{ if gt .Paginator.PageNumber 1 }}
+        <link rel="canonical" href="{{ .Paginator.First.URL }}" />
+      {{ else }}
+        <link rel="canonical" href="{{ .Permalink }}" />
+      {{ end }}
+    {{ else }}
+      <link rel="canonical" href="{{ .Permalink }}" />
+    {{ end }}
   {{ end }}
   {{- if .Site.Params.primaryColor -}}
   <meta name="msapplication-TileColor" content="{{.Site.Params.primaryColor}}">
